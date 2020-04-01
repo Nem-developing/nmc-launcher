@@ -105,6 +105,12 @@ public class LauncherPanel extends JPanel implements SwingerEventListener{
 					return;
 				}
 				
+				
+				
+				saver.setUsername(usernameField.getText());
+				
+				
+				
 				try	{
 					Launcher.update();
 				} catch (Exception e) {
