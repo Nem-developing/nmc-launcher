@@ -15,6 +15,7 @@ import fr.theshark34.openlauncherlib.launcher.GameLauncher;
 import fr.theshark34.openlauncherlib.launcher.GameTweak;
 import fr.theshark34.openlauncherlib.launcher.GameType;
 import fr.theshark34.openlauncherlib.launcher.GameVersion;
+import fr.theshark34.openlauncherlib.util.ErrorUtil;
 import fr.theshark34.supdate.BarAPI;
 import fr.theshark34.supdate.SUpdate;
 import fr.theshark34.supdate.application.integrated.FileDeleter;
@@ -24,9 +25,14 @@ public class Launcher {
 	public static final GameVersion SC_VERSION = new GameVersion("1.7.10", GameType.V1_7_10);
 	public static final GameInfos SC_INFOS = new GameInfos("Nemixcraft", SC_VERSION, true, new GameTweak[] {GameTweak.FORGE});
 	public static final File SC_DIR = SC_INFOS.getGameDir();
+	public static final File SC_CRASH_DIR = new File(SC_DIR, "CRASH");
 	
 	private static AuthInfos authInfos;
 	private static Thread updateThread;
+	
+	
+	private static ErrorUtil errorUtil = new ErrorUtil(SC_CRASH_DIR);
+	
 	
 	public static void auth(String username, String password) throws AuthenticationException {
 		Authenticator authenticator = new  Authenticator(Authenticator.MOJANG_AUTH_URL, AuthPoints.NORMAL_AUTH_POINTS);
@@ -89,5 +95,8 @@ public class Launcher {
 		updateThread.interrupt();
 	}
 	
+	public static ErrorUtil getErrorUtil() {
+		return errorUtil;
+	}
 	
 }
