@@ -29,6 +29,7 @@ public class LauncherFrame extends JFrame{
 		this.setVisible(true);
 	}
 	
+	
 	public static void main(String[] args) {
 		Swinger.setSystemLookNFeel();
 		Swinger.setResourcePath("/fr/nemixcraft/launcher/resources/");
