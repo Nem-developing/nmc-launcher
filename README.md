@@ -1,7 +1,7 @@
 nmc-launcher MADE BY Nem-developing
 -----------------------------
 Informations : 
-- Code est dédié au launcher de NemixCraft (Serveur Minecraft)
+- Code est dédié au launcher de NemixCraft  -  (Serveur Minecraft)
 Rejoins-nous : https://nemixcraft.com
 
 My GITHUB : https://github.com/Nem-developing
