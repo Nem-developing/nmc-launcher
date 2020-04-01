@@ -32,7 +32,7 @@ public class LauncherFrame extends JFrame{
 	public static void main(String[] args) {
 		Swinger.setSystemLookNFeel();
 		Swinger.setResourcePath("/fr/nemixcraft/launcher/resources/");
-		
+		Launcher.SC_CRASH_DIR.mkdirs();
 		instance = new LauncherFrame();
 	}
 	
