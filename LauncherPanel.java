@@ -39,6 +39,11 @@ public class LauncherPanel extends JPanel implements SwingerEventListener{
 	private SColoredBar progressBar	= new SColoredBar(new Color(255,255,255, 100), new Color(255,255,255, 255));
 	private JLabel infoLabel = new JLabel("Clique sur jouer !", SwingConstants.CENTER);
 	
+	
+	
+	
+	
+	
 	public LauncherPanel() {
 		this.setLayout(null);
 		
@@ -115,15 +120,16 @@ public class LauncherPanel extends JPanel implements SwingerEventListener{
 					Launcher.update();
 				} catch (Exception e) {
 					Launcher.interruptTread();
-					JOptionPane.showMessageDialog(LauncherPanel.this, "Erreur, Impossible de mettre le jeu a jour : " + e, "Erreur", JOptionPane.ERROR_MESSAGE);
+					Launcher.getErrorUtil().catchError(e, "Impossible de mettre a jour NemixCraft !");
 					setFieldsEnabled(true);
 					return;
 				}
 				
 				try	{
 					Launcher.launch();
-				} catch (IOException e) {
-					JOptionPane.showMessageDialog(LauncherPanel.this, "Erreur, Impossible de lancer le jeu : " + e, "Erreur", JOptionPane.ERROR_MESSAGE);
+				} catch (IOException e) 
+				{
+					Launcher.getErrorUtil().catchError(e, "Impossible de lancer NemixCraft !");
 					setFieldsEnabled(true);
 				}
 				
