@@ -45,3 +45,4 @@ public class LauncherFrame extends JFrame{
 		return this.launcherPanel;
 	}
 }
+ 
