@@ -41,7 +41,7 @@ public class LauncherPanel extends JPanel implements SwingerEventListener{
 	
 	private SColoredBar progressBar	= new SColoredBar(new Color(255,255,255, 100), new Color(255,255,255, 255));
 	private JLabel infoLabel = new JLabel("Clique sur jouer !", SwingConstants.CENTER);
-	private JLabel vertionlabel = new JLabel("Launcher version 1.0.3");
+	private JLabel vertionlabel = new JLabel("Launcher version 1.0.2");
 	
 	
 	
