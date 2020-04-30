@@ -15,6 +15,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import club.minnced.discord.rpc.DiscordEventHandlers;
+import club.minnced.discord.rpc.DiscordRPC;
+import club.minnced.discord.rpc.DiscordRichPresence;
 import fr.theshark34.openauth.AuthenticationException;
 import fr.theshark34.openlauncherlib.launcher.util.UsernameSaver;
 import fr.theshark34.swinger.colored.SColoredBar;
@@ -38,9 +41,6 @@ public class LauncherPanel extends JPanel implements SwingerEventListener{
 	
 	private SColoredBar progressBar	= new SColoredBar(new Color(255,255,255, 100), new Color(255,255,255, 255));
 	private JLabel infoLabel = new JLabel("Clique sur jouer !", SwingConstants.CENTER);
-	
-	
-	
 	
 	
 	
@@ -85,6 +85,10 @@ public class LauncherPanel extends JPanel implements SwingerEventListener{
 		infoLabel.setFont(infoLabel.getFont().deriveFont(20F));
 		infoLabel.setBounds(7, 500, 858, 30);
 		this.add(infoLabel);
+		
+		startRPC();
+		
+		System.out.println("Lancement du RPC de Discord");
 	}
 	
 	@Override
@@ -133,6 +137,8 @@ public class LauncherPanel extends JPanel implements SwingerEventListener{
 					setFieldsEnabled(true);
 				}
 				
+				
+				
 				System.out.println("connection réussie");
 				
 			}
@@ -170,5 +176,42 @@ public class LauncherPanel extends JPanel implements SwingerEventListener{
 		infoLabel.setText(text);
 		
 	}
+	
+	public void startRPC() {
+		 DiscordRPC lib = DiscordRPC.INSTANCE;
+	        String applicationId = "";
+	        String steamId = "https://nemixcraft.com";
+	        DiscordEventHandlers handlers = new DiscordEventHandlers();
+	        handlers.ready = (user) -> System.out.println("Ready!");
+	        lib.Discord_Initialize(applicationId, handlers, true, steamId);
+	        DiscordRichPresence presence = new DiscordRichPresence();
+	        presence.startTimestamp = System.currentTimeMillis() / 1000; // epoch second
+	        presence.state = "Skyblock - Survie - Créatif";
+	        presence.details = "PvP Faction - OP Prison";
+	        presence.largeImageKey = "bannier";
+	        presence.largeImageText = "Toi aussi rejoins l'aventure Nemixcraft ! Exclusivement sur nemixcraft.com.";
+	        presence.smallImageKey = "logo";
+	        presence.smallImageText = "Nemixcraft saura satisfaire toutes tes envies grâce à ses nombreux modes de jeu tel que le prison ou le faction !";
+	        presence.partyId = "";
+	        presence.partySize = 1;
+	        presence.partyMax = 100;
+	        presence.spectateSecret = "";
+	        presence.joinSecret = "";
+	        lib.Discord_UpdatePresence(presence);
+	        // in a worker thread
+	        new Thread(() -> {
+	            while (!Thread.currentThread().isInterrupted()) {
+	                lib.Discord_RunCallbacks();
+	                try {
+	                    Thread.sleep(2000);
+	                } catch (InterruptedException ignored) {}
+	            }
+	        }, "RPC-Callback-Handler").start();
+    }
+	
+	
+	
+	public static class Main {
+	    
+	}
 }
- 
