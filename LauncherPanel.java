@@ -41,6 +41,7 @@ public class LauncherPanel extends JPanel implements SwingerEventListener{
 	
 	private SColoredBar progressBar	= new SColoredBar(new Color(255,255,255, 100), new Color(255,255,255, 255));
 	private JLabel infoLabel = new JLabel("Clique sur jouer !", SwingConstants.CENTER);
+	private JLabel vertionlabel = new JLabel("Launcher version 1.0.3");
 	
 	
 	
@@ -85,6 +86,12 @@ public class LauncherPanel extends JPanel implements SwingerEventListener{
 		infoLabel.setFont(infoLabel.getFont().deriveFont(20F));
 		infoLabel.setBounds(7, 500, 858, 30);
 		this.add(infoLabel);
+		
+		vertionlabel.setForeground(Color.WHITE);
+		vertionlabel.setFont(infoLabel.getFont().deriveFont(15F));
+		vertionlabel.setBounds(10, 6, 300, 30);
+		this.add(vertionlabel);
+		
 		
 		startRPC();
 		
@@ -180,7 +187,7 @@ public class LauncherPanel extends JPanel implements SwingerEventListener{
 	public void startRPC() {
 		 DiscordRPC lib = DiscordRPC.INSTANCE;
 	        String applicationId = "";
-	        String steamId = "https://nemixcraft.com";
+	        String steamId = "";
 	        DiscordEventHandlers handlers = new DiscordEventHandlers();
 	        handlers.ready = (user) -> System.out.println("Ready!");
 	        lib.Discord_Initialize(applicationId, handlers, true, steamId);
