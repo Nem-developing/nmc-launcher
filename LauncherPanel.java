@@ -3,9 +3,12 @@ package fr.nemixcraft.launcher;
 import static fr.theshark34.swinger.Swinger.getResource;
 
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,10 +23,12 @@ import club.minnced.discord.rpc.DiscordRPC;
 import club.minnced.discord.rpc.DiscordRichPresence;
 import fr.theshark34.openauth.AuthenticationException;
 import fr.theshark34.openlauncherlib.launcher.util.UsernameSaver;
+import fr.theshark34.swinger.Swinger;
 import fr.theshark34.swinger.colored.SColoredBar;
 import fr.theshark34.swinger.event.SwingerEvent;
 import fr.theshark34.swinger.event.SwingerEventListener;
 import fr.theshark34.swinger.textured.STexturedButton;
+
 
 @SuppressWarnings("serial")
 public class LauncherPanel extends JPanel implements SwingerEventListener{
@@ -38,10 +43,13 @@ public class LauncherPanel extends JPanel implements SwingerEventListener{
 	private STexturedButton playButton = new STexturedButton(getResource("play.png"));
 	private STexturedButton exitButton = new STexturedButton(getResource("exit.png"));
 	private STexturedButton hideButton = new STexturedButton(getResource("hide.png"));
-	
+	private STexturedButton dicordlogo = new STexturedButton(Swinger.getResource("discord-logo.png"));
+	private STexturedButton nmclogo = new STexturedButton(Swinger.getResource("icon-tiny.png"));
+	private STexturedButton servstate = new STexturedButton(Swinger.getResource("servstate.png"));
+
 	private SColoredBar progressBar	= new SColoredBar(new Color(255,255,255, 100), new Color(255,255,255, 255));
 	private JLabel infoLabel = new JLabel("Clique sur jouer !", SwingConstants.CENTER);
-	private JLabel vertionlabel = new JLabel("Launcher version 1.0.2");
+	private JLabel vertionlabel = new JLabel("Launcher version 1.0.3");
 	
 	
 	
@@ -92,9 +100,20 @@ public class LauncherPanel extends JPanel implements SwingerEventListener{
 		vertionlabel.setBounds(10, 6, 300, 30);
 		this.add(vertionlabel);
 		
+		dicordlogo.setBounds(800, 120);
+		dicordlogo.addEventListener(this);
+		this.add(dicordlogo);
+		
+		servstate.setBounds(800, 180);
+		servstate.addEventListener(this);
+		this.add(servstate);
+		
+		nmclogo.setBounds(800, 250);
+		nmclogo.addEventListener(this);
+		this.add(nmclogo);
+		
 		
 		startRPC();
-		
 		System.out.println("Lancement du RPC de Discord");
 	}
 	
@@ -108,6 +127,8 @@ public class LauncherPanel extends JPanel implements SwingerEventListener{
 				setFieldsEnabled(true);
 				return;
 			}
+			
+
 		
 		
 		Thread t =  new Thread() {
@@ -159,6 +180,31 @@ public class LauncherPanel extends JPanel implements SwingerEventListener{
 		 else if (e.getSource() == hideButton) 
 			LauncherFrame.getInstance().setState(JFrame.ICONIFIED);
 		
+		if(e.getSource() == dicordlogo)
+            try {
+                Desktop.getDesktop().browse(new URI("https://discord.gg/Mm5jShV"));
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            } catch (URISyntaxException e1) {
+                e1.printStackTrace();
+            }
+		if(e.getSource() == nmclogo)
+            try {
+                Desktop.getDesktop().browse(new URI("https://nemixcraft.com"));
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            } catch (URISyntaxException e1) {
+                e1.printStackTrace();
+            }
+		if(e.getSource() == servstate)
+            try {
+                Desktop.getDesktop().browse(new URI("https://www.nemixcraft.com/etats-des-serveurs"));
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            } catch (URISyntaxException e1) {
+                e1.printStackTrace();
+            }
+		
 	}
 	
 	@Override
@@ -186,7 +232,7 @@ public class LauncherPanel extends JPanel implements SwingerEventListener{
 	
 	public void startRPC() {
 		 DiscordRPC lib = DiscordRPC.INSTANCE;
-	        String applicationId = "";
+	        String applicationId = "";	// ID de votre aplication https://discordapp.com/developers
 	        String steamId = "";
 	        DiscordEventHandlers handlers = new DiscordEventHandlers();
 	        handlers.ready = (user) -> System.out.println("Ready!");
@@ -215,10 +261,4 @@ public class LauncherPanel extends JPanel implements SwingerEventListener{
 	            }
 	        }, "RPC-Callback-Handler").start();
     }
-	
-	
-	
-	public static class Main {
-	    
-	}
 }
