@@ -46,10 +46,12 @@ public class LauncherPanel extends JPanel implements SwingerEventListener{
 	private STexturedButton dicordlogo = new STexturedButton(Swinger.getResource("discord-logo.png"));
 	private STexturedButton nmclogo = new STexturedButton(Swinger.getResource("icon-tiny.png"));
 	private STexturedButton servstate = new STexturedButton(Swinger.getResource("servstate.png"));
+	private STexturedButton playapp = new STexturedButton(Swinger.getResource("google-app.png"));
 
+	
 	private SColoredBar progressBar	= new SColoredBar(new Color(255,255,255, 100), new Color(255,255,255, 255));
-	private JLabel infoLabel = new JLabel("Clique sur jouer !", SwingConstants.CENTER);
-	private JLabel vertionlabel = new JLabel("Launcher version 1.0.3");
+	private JLabel infoLabel = new JLabel("   Nemixcraft te souhaite la bienvenue !", SwingConstants.CENTER);
+	private JLabel vertionlabel = new JLabel("Launcher version 1.0.4");
 	
 	
 	
@@ -112,6 +114,9 @@ public class LauncherPanel extends JPanel implements SwingerEventListener{
 		nmclogo.addEventListener(this);
 		this.add(nmclogo);
 		
+		playapp.setBounds(700, 330);
+		playapp.addEventListener(this);
+		this.add(playapp);
 		
 		startRPC();
 		System.out.println("Lancement du RPC de Discord");
@@ -204,6 +209,14 @@ public class LauncherPanel extends JPanel implements SwingerEventListener{
             } catch (URISyntaxException e1) {
                 e1.printStackTrace();
             }
+		if(e.getSource() == playapp)
+            try {
+                Desktop.getDesktop().browse(new URI("https://play.google.com/store/apps/details?id=com.nemixcraft.nemixcraft"));
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            } catch (URISyntaxException e1) {
+                e1.printStackTrace();
+            }
 		
 	}
 	
@@ -232,7 +245,7 @@ public class LauncherPanel extends JPanel implements SwingerEventListener{
 	
 	public void startRPC() {
 		 DiscordRPC lib = DiscordRPC.INSTANCE;
-	        String applicationId = "";	// ID de votre aplication https://discordapp.com/developers
+	        String applicationId = "";
 	        String steamId = "";
 	        DiscordEventHandlers handlers = new DiscordEventHandlers();
 	        handlers.ready = (user) -> System.out.println("Ready!");
