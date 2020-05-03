@@ -18,6 +18,11 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import com.jaunt.Element;
+import com.jaunt.Elements;
+import com.jaunt.JauntException;
+import com.jaunt.UserAgent;
+
 import club.minnced.discord.rpc.DiscordEventHandlers;
 import club.minnced.discord.rpc.DiscordRPC;
 import club.minnced.discord.rpc.DiscordRichPresence;
@@ -51,11 +56,11 @@ public class LauncherPanel extends JPanel implements SwingerEventListener{
 	
 	private SColoredBar progressBar	= new SColoredBar(new Color(255,255,255, 100), new Color(255,255,255, 255));
 	private JLabel infoLabel = new JLabel("   Nemixcraft te souhaite la bienvenue !", SwingConstants.CENTER);
-	private JLabel vertionlabel = new JLabel("Launcher version 1.0.4");
+	private JLabel vertionlabel = new JLabel("Launcher version 1.0.5");
 	
 	
 	
-	public LauncherPanel() {
+	public LauncherPanel(){
 		this.setLayout(null);
 		
 		usernameField.setForeground(Color.WHITE);
@@ -118,12 +123,24 @@ public class LauncherPanel extends JPanel implements SwingerEventListener{
 		playapp.addEventListener(this);
 		this.add(playapp);
 		
+		
+		
+		
+		
+		
+		 
+		
+		
+		
 		startRPC();
 		System.out.println("Lancement du RPC de Discord");
+		
+		
+
 	}
 	
 	@Override
-	public void onEvent(SwingerEvent e) {
+	public void onEvent(SwingerEvent e){
 		if(e.getSource() == playButton) {
 			setFieldsEnabled(false);
 			
@@ -243,7 +260,10 @@ public class LauncherPanel extends JPanel implements SwingerEventListener{
 		
 	}
 	
-	public void startRPC() {
+	public void startRPC(){
+		
+		
+		
 		 DiscordRPC lib = DiscordRPC.INSTANCE;
 	        String applicationId = "";
 	        String steamId = "";
@@ -259,19 +279,46 @@ public class LauncherPanel extends JPanel implements SwingerEventListener{
 	        presence.smallImageKey = "logo";
 	        presence.smallImageText = "Nemixcraft saura satisfaire toutes tes envies grâce à ses nombreux modes de jeu tel que le prison ou le faction !";
 	        presence.partyId = "";
-	        presence.partySize = 1;
+	        presence.partySize = 0;
 	        presence.partyMax = 100;
 	        presence.spectateSecret = "";
 	        presence.joinSecret = "";
 	        lib.Discord_UpdatePresence(presence);
-	        // in a worker thread
+	        
 	        new Thread(() -> {
 	            while (!Thread.currentThread().isInterrupted()) {
-	                lib.Discord_RunCallbacks();
-	                try {
-	                    Thread.sleep(2000);
+	            	
+	            	
+	            	String total = (String) webparse();
+	    	        int nombreplayeursenligne = Integer.parseInt(total);
+	            	presence.partySize = nombreplayeursenligne;
+	    	        
+	    	        
+	            	lib.Discord_UpdatePresence(presence);
+	            	lib.Discord_RunCallbacks();
+					System.out.println("--> Présence Discord actualisée");
+
+	            	try {
+	                    Thread.sleep(120000);
+	        	        
 	                } catch (InterruptedException ignored) {}
 	            }
 	        }, "RPC-Callback-Handler").start();
     }
+	
+	
+	  public static Object webparse(){
+		  String totalplayer = "";
+		  
+	    try{
+	      UserAgent userAgent = new UserAgent();                       
+	      userAgent.visit("https://www.nemixcraft.com/etats-des-serveurs");      
+	      Element total = userAgent.doc.findFirst("<span id=\"totalplayer\">"); 
+	      totalplayer = total.innerHTML();
+	    }
+	    catch(JauntException e){         
+	      System.err.println(e);
+	    }
+		return totalplayer;
+	  }
 }
