@@ -41,7 +41,7 @@ public class Launcher {
 	}
 	
 	public static void update() throws Exception {
-		SUpdate su = new SUpdate("http://nemixcraft.com/minecraft/launcher/", SC_DIR);
+		SUpdate su = new SUpdate("https://nemixcraft.com/minecraft/launcher/", SC_DIR);
 		su.getServerRequester().setRewriteEnabled(true);
 		su.addApplication(new FileDeleter());
 
