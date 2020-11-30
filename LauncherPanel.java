@@ -56,7 +56,7 @@ public class LauncherPanel extends JPanel implements SwingerEventListener{
 	
 	private SColoredBar progressBar	= new SColoredBar(new Color(255,255,255, 100), new Color(255,255,255, 255));
 	private JLabel infoLabel = new JLabel("   Nemixcraft te souhaite la bienvenue !", SwingConstants.CENTER);
-	private JLabel vertionlabel = new JLabel("Launcher version 1.0.5");
+	private JLabel vertionlabel = new JLabel("Launcher version 1.0.6");
 	
 	
 	
