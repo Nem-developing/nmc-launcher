@@ -3,7 +3,7 @@ nmc-launcher MADE BY Nem-developing
 Libs : 
 - Gson : http://www.java2s.com/example/jar/g/download-gson231jar-file.html
 - Java-discord-rpc : https://github.com/MinnDevelopment/java-discord-rpc
-- Openauth : https://github.com/Litarvan/OpenAuth/releases
+- Openauth : https://github.com/Litarvan/OpenAuth/releases/download/v1.1.0/openauth-1.1.0.jar
 - Openlauncherlib : https://github.com/Litarvan/OpenLauncherLib/releases
 - S-update : https://github.com/Litarvan/S-Update/releases
 - Swinger : https://github.com/Litarvan/Litarvan.github.io/tree/master/maven/fr/theshark34/swinger/swinger/1.0.0-BETA
