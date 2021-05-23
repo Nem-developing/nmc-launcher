@@ -19,14 +19,14 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import com.jaunt.Element;
-import com.jaunt.Elements;
 import com.jaunt.JauntException;
 import com.jaunt.UserAgent;
 
 import club.minnced.discord.rpc.DiscordEventHandlers;
 import club.minnced.discord.rpc.DiscordRPC;
 import club.minnced.discord.rpc.DiscordRichPresence;
-import fr.theshark34.openauth.AuthenticationException;
+import fr.litarvan.openauth.AuthenticationException;
+import fr.litarvan.openauth.microsoft.MicrosoftAuthenticationException;
 import fr.theshark34.openlauncherlib.launcher.util.UsernameSaver;
 import fr.theshark34.swinger.Swinger;
 import fr.theshark34.swinger.colored.SColoredBar;
@@ -56,7 +56,7 @@ public class LauncherPanel extends JPanel implements SwingerEventListener{
 	
 	private SColoredBar progressBar	= new SColoredBar(new Color(255,255,255, 100), new Color(255,255,255, 255));
 	private JLabel infoLabel = new JLabel("   Nemixcraft te souhaite la bienvenue !", SwingConstants.CENTER);
-	private JLabel vertionlabel = new JLabel("Launcher version 1.0.6");
+	private JLabel vertionlabel = new JLabel("Launcher version 1.0.7");
 	
 	
 	
@@ -124,14 +124,6 @@ public class LauncherPanel extends JPanel implements SwingerEventListener{
 		this.add(playapp);
 		
 		
-		
-		
-		
-		
-		 
-		
-		
-		
 		startRPC();
 		System.out.println("Lancement du RPC de Discord");
 		
@@ -157,11 +149,19 @@ public class LauncherPanel extends JPanel implements SwingerEventListener{
 			@Override 
 			public void run() {
 				try {
-					Launcher.auth(usernameField.getText(), passwordField.getText());
+					Launcher.authJava(usernameField.getText(), passwordField.getText());
 				} catch (AuthenticationException e) {
-					JOptionPane.showMessageDialog(LauncherPanel.this, "Erreur, Impossible de se connecter : " + e.getErrorModel().getErrorMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
-					setFieldsEnabled(true);
-					return;
+
+
+					try {
+					    Launcher.authMicrosoft(usernameField.getText(), passwordField.getText());
+					} catch (MicrosoftAuthenticationException e2) {
+					    JOptionPane.showMessageDialog(LauncherPanel.this, "Erreur, Impossible de se connecter : " + e);
+					    setFieldsEnabled(true);
+					    return;
+					}
+					
+					
 				}
 				
 				
@@ -189,7 +189,7 @@ public class LauncherPanel extends JPanel implements SwingerEventListener{
 				
 				
 				
-				System.out.println("connection rÃ©ussie");
+				System.out.println("connection réussie");
 				
 			}
 		};
@@ -265,24 +265,24 @@ public class LauncherPanel extends JPanel implements SwingerEventListener{
 		
 		
 		 DiscordRPC lib = DiscordRPC.INSTANCE;
-	        String applicationId = "";
+	        String applicationId = "705178374754271287";
 	        String steamId = "";
 	        DiscordEventHandlers handlers = new DiscordEventHandlers();
 	        handlers.ready = (user) -> System.out.println("Ready!");
 	        lib.Discord_Initialize(applicationId, handlers, true, steamId);
 	        DiscordRichPresence presence = new DiscordRichPresence();
 	        presence.startTimestamp = System.currentTimeMillis() / 1000; // epoch second
-	        presence.state = "Skyblock - Survie - CrÃ©atif";
+	        presence.state = "Skyblock - Survie - Créatif";
 	        presence.details = "PvP Faction - OP Prison";
 	        presence.largeImageKey = "bannier";
 	        presence.largeImageText = "Toi aussi rejoins l'aventure Nemixcraft ! Exclusivement sur nemixcraft.com.";
 	        presence.smallImageKey = "logo";
-	        presence.smallImageText = "Nemixcraft saura satisfaire toutes tes envies grÃ¢ce Ã  ses nombreux modes de jeu tel que le prison ou le faction !";
-	        presence.partyId = "";
+	        presence.smallImageText = "Nemixcraft saura satisfaire toutes tes envies grâce à ses nombreux modes de jeu tel que le prison ou le faction !";
+	        presence.partyId = "ae488379-351d-4a4f-ad32-2b9b01c91657";
 	        presence.partySize = 0;
 	        presence.partyMax = 100;
 	        presence.spectateSecret = "";
-	        presence.joinSecret = "";
+	        presence.joinSecret = "MTI4NzM0OjFpMmhuZToxMjMxMjM= ";
 	        lib.Discord_UpdatePresence(presence);
 	        
 	        new Thread(() -> {
@@ -296,7 +296,7 @@ public class LauncherPanel extends JPanel implements SwingerEventListener{
 	    	        
 	            	lib.Discord_UpdatePresence(presence);
 	            	lib.Discord_RunCallbacks();
-					System.out.println("--> PrÃ©sence Discord actualisÃ©e");
+					System.out.println("--> Présence Discord actualisée");
 
 	            	try {
 	                    Thread.sleep(120000);

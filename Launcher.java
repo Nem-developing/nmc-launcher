@@ -1,13 +1,16 @@
-package fr.nemixcraft.launcher;
+ package fr.nemixcraft.launcher;
 
 import java.io.File;
 import java.io.IOException;
 
-import fr.theshark34.openauth.AuthPoints;
-import fr.theshark34.openauth.AuthenticationException;
-import fr.theshark34.openauth.Authenticator;
-import fr.theshark34.openauth.model.AuthAgent;
-import fr.theshark34.openauth.model.response.AuthResponse;
+import fr.litarvan.openauth.AuthPoints;
+import fr.litarvan.openauth.AuthenticationException;
+import fr.litarvan.openauth.Authenticator;
+import fr.litarvan.openauth.microsoft.MicrosoftAuthResult;
+import fr.litarvan.openauth.microsoft.MicrosoftAuthenticationException;
+import fr.litarvan.openauth.microsoft.MicrosoftAuthenticator;
+import fr.litarvan.openauth.model.AuthAgent;
+import fr.litarvan.openauth.model.response.AuthResponse;
 import fr.theshark34.openlauncherlib.launcher.AuthInfos;
 import fr.theshark34.openlauncherlib.launcher.GameFolder;
 import fr.theshark34.openlauncherlib.launcher.GameInfos;
@@ -34,10 +37,17 @@ public class Launcher {
 	private static ErrorUtil errorUtil = new ErrorUtil(SC_CRASH_DIR);
 	
 	
-	public static void auth(String username, String password) throws AuthenticationException {
+	public static void authJava(String username, String password) throws AuthenticationException {
 		Authenticator authenticator = new  Authenticator(Authenticator.MOJANG_AUTH_URL, AuthPoints.NORMAL_AUTH_POINTS);
 		AuthResponse responce = authenticator.authenticate(AuthAgent.MINECRAFT, username, password, "");
 		authInfos = new AuthInfos(responce.getSelectedProfile().getName(), responce.getAccessToken(), responce.getSelectedProfile().getId());
+	}
+	
+	public static void authMicrosoft(String email, String password) throws MicrosoftAuthenticationException {
+	    MicrosoftAuthenticator authenticator = new MicrosoftAuthenticator();
+	    MicrosoftAuthResult result = authenticator.loginWithCredentials(email, password);
+
+	    authInfos = new AuthInfos(result.getProfile().getName(), result.getAccessToken(), result.getProfile().getId());
 	}
 	
 	public static void update() throws Exception {
@@ -64,7 +74,7 @@ public class Launcher {
 					LauncherFrame.getInstance().getLauncherPanel().progressBar().setMaximum(max);
 					LauncherFrame.getInstance().getLauncherPanel().progressBar().setValue(val);
 					
-					LauncherFrame.getInstance().getLauncherPanel().setInfoText("TÃ©lÃ©chargement " + BarAPI.getNumberOfDownloadedFiles() + "/" + BarAPI.getNumberOfFileToDownload() + " " + Swinger.percentage(val, max) + "%");				
+					LauncherFrame.getInstance().getLauncherPanel().setInfoText("Téléchargement " + BarAPI.getNumberOfDownloadedFiles() + "/" + BarAPI.getNumberOfFileToDownload() + " " + Swinger.percentage(val, max) + "%");				
 				}
 			}
 		};
